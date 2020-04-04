@@ -1,16 +1,25 @@
-package me.skwead.storage.file.json;
+package api.skwead.storage.file.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
 
+/**
+ * Handles json configuration files based on GSON
+ * @param <T> the data type to be stored
+ */
 @SuppressWarnings("unused")
 public class JSONConfig<T> {
     private T data;
     private Class<T> Tclass;
     private String path;
 
+    /**
+     * Creates a configuration object
+     * @param path the path to the file
+     * @param Tclass the class of the data to be stored
+     */
     public JSONConfig(String path, Class<T> Tclass) {
         this.path = path;
         this.Tclass = Tclass;
@@ -40,6 +49,12 @@ public class JSONConfig<T> {
         }
     }
 
+    /**
+     * Loads the file into memory
+     * @return the file content as {@link T}
+     * @throws FileNotFoundException if the file was not found
+     * @see FileReader
+     */
     public T loadFile() throws FileNotFoundException {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
@@ -51,6 +66,11 @@ public class JSONConfig<T> {
         return res;
     }
 
+    /**
+     * Saves the data in memory to the file
+     * @throws IOException if any problem occurs creating the {@link FileWriter}
+     * @see FileWriter
+     */
     public void saveFile() throws IOException {
         Writer fw = new FileWriter(new File(this.path));
 
