@@ -5,7 +5,7 @@ import api.skwead.messages.chat.MessageType;
 import api.skwead.storage.file.json.JSONConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,8 +36,12 @@ public class Logger {
         this.config = new JSONConfig<>(path, LogEntry.class);
 
         try {
-            this.config.loadFile();
-        } catch (FileNotFoundException e) {
+            LogEntry le = this.config.loadFile();
+            if(le == null)
+                this.config.setData(this.processes);
+
+            this.config.saveFile();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -71,7 +75,7 @@ public class Logger {
             
         if(p == null) return false;
         
-        if(subs.length == 0)
+        if(subs.length <= 1)
             return p.isEnabled();
         else 
             return isEnabled(p, process.substring(process.indexOf('-')));
@@ -100,11 +104,13 @@ public class Logger {
      * @param successMessage Message to be displayed if it worked
      * @param errorMessage Message to indicate error
      */
+    // TODO: 04/04/2020 Implementar o sistema de indentação
     public void check(boolean b, String proc, String successMessage, String errorMessage) {
-        if(b)
-            log(MessageType.SUCCESS, '['+proc+']'+getIndent(proc)+successMessage);
-        else
-            log(MessageType.ERROR, '['+proc+']'+ getIndent(proc)+ errorMessage);
+        if(isEnabled(proc))
+            if(b)
+                log(MessageType.SUCCESS, '['+proc+']'/*+getIndent(proc)*/+successMessage);
+            else
+                log(MessageType.ERROR, '['+proc+']'/*+ getIndent(proc)*/+ errorMessage);
     }
 
     private String getIndent(String processName){
