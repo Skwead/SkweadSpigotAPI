@@ -6,26 +6,27 @@ import java.util.Set;
 /**
  * Stores the data of a process
  */
-public class LogEntry {
+@SuppressWarnings("unused")
+public class Process {
     private boolean enabled;
     private String name;
-    private Set<LogEntry> subProcesses;
+    private Set<Process> subProcesses;
 
-    public LogEntry() {
+    public Process() {
         this("sample");
     }
 
-    public LogEntry(String name){
+    public Process(String name){
         this(true, name, new HashSet<>());
     }
 
-    protected LogEntry(boolean enabled, String name, Set<LogEntry> subProcesses) {
+    protected Process(boolean enabled, String name, Set<Process> subProcesses) {
         this.enabled = enabled;
         this.subProcesses = subProcesses;
         this.name = name;
     }
 
-    public void registerSubProcess(LogEntry logEntry){
+    public void registerSubProcess(Process logEntry){
         subProcesses.add(logEntry);
     }
 
@@ -33,7 +34,7 @@ public class LogEntry {
         return enabled;
     }
 
-    public Set<LogEntry> getSubProcesses() {
+    public Set<Process> getSubProcesses() {
         return subProcesses;
     }
 
