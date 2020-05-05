@@ -16,10 +16,9 @@ import java.util.Set;
  */
 @SuppressWarnings("unused")
 public class Logger {
-    private Set<Process> procs;
-    private JSONConfig<Process> conf;
-    private ChatUtils chatUtils;
-    private JavaPlugin plugin;
+    private final Set<Process> procs;
+    private final JSONConfig<Process> conf;
+    private final ChatUtils chatUtils;
     private short maxLen = 0;
 
     /**
@@ -31,7 +30,6 @@ public class Logger {
      */
     public Logger(Set<Process> procs, String path, ChatUtils chatUtils, JavaPlugin plugin) {
         this.chatUtils = chatUtils;
-        this.plugin = plugin;
         this.conf = new JSONConfig<>(path, Process.class);
 
         Process main = null;
@@ -45,18 +43,18 @@ public class Logger {
             this.procs = procs;
         } else {
             Set<Process> confProc = this.decirialize(main);
-            /**/System.out.println("--c--");
-            /**/confProc.forEach(p -> System.out.println(p.getName()));
-            /**/System.out.println("--c--");
+//            /**/System.out.println("--c--");
+//            /**/confProc.forEach(p -> System.out.println(p.getName()));
+//            /**/System.out.println("--c--");
 
 //            this.procs = areEqual(procs, confProc) ? confProc : procs;
             this.procs = procs.size() == confProc.size() ? confProc : procs;
 
             this.procs.forEach(p -> this.maxLen = p.getName().length() > this.maxLen ? (short) p.getName().length() : this.maxLen);
         }
-        /**/System.out.println("--m--");
-        /**/this.procs.forEach(p -> System.out.println(p.getName()));
-        /**/System.out.println("--m--");
+//        /**/System.out.println("--m--");
+//        /**/this.procs.forEach(p -> System.out.println(p.getName()));
+//        /**/System.out.println("--m--");
         try {
             final Process top = new Process(main == null || main.isEnabled(), "", new HashSet<>());
             this.mount(top, this.procs);
@@ -182,8 +180,7 @@ public class Logger {
             if (!p.getName().contains("-")) {
                 Process sp = new Process(p.isEnabled(), p.getName(), new HashSet<>());
                 top.registerSubProcess(sp);
-                /**/
-                System.out.println(sp.getName());
+//                /**/System.out.println(sp.getName());
             }
         });
 
@@ -193,17 +190,13 @@ public class Logger {
     private void recMount(Process top, Set<Process> procs) {
         top.getSubProcesses().forEach(sp ->
                 procs.forEach(p -> {
-                    /**/
-                    System.out.println("! " + p.getName() + p.getName().split("-").length + " starts with " + sp.getName() + sp.getName().split("-").length + "? " +
-                            (p.getName().startsWith(sp.getName()) && !p.getName().equals(sp.getName())));
+//                    /**/System.out.println("! " + p.getName() + p.getName().split("-").length + " starts with " + sp.getName() + sp.getName().split("-").length + "? " +
+//                            (p.getName().startsWith(sp.getName()) && !p.getName().equals(sp.getName())));
                     if (p.getName().startsWith(sp.getName()) && !p.getName().equals(sp.getName())
                             && p.getName().split("-").length == sp.getName().split("-").length + 1) {
-                        /**/
-                        System.out.println("-----s----");
-                        /**/
-                        System.out.println(p.getName());
-                        /**/
-                        System.out.println("-----s----");
+//                        /**/System.out.println("-----s----");
+//                        /**/System.out.println(p.getName());
+//                        /**/System.out.println("-----s----");
                         sp.registerSubProcess(p);
                         recMount(p, procs);
                     }
