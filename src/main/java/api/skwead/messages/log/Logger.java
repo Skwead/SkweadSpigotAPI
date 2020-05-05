@@ -101,8 +101,8 @@ public class Logger {
     public void log(String process, String message, MessageType messageType) {
         if (!isEnabled(process)) return;
 
-        String procName = String.format("%" + maxLen + "s", process);
-        String msg = String.format("[%s]%s", procName, message);
+        String procName = String.format("%" + -maxLen + "s", process);
+        String msg = String.format("[%s] %s", procName, message);
         chatUtils.log(messageType, msg);
     }
 
@@ -118,9 +118,9 @@ public class Logger {
         if (!isEnabled(proc)) return;
 
         if (b)
-            chatUtils.log(MessageType.SUCCESS, success);
+            log(proc, success, MessageType.SUCCESS);
         else
-            chatUtils.log(MessageType.ERROR, error);
+            log(proc, error, MessageType.ERROR);
     }
 
     private boolean areEqual(Set<Process> procs, Set<Process> confProc) {

@@ -70,10 +70,10 @@ public class ChatUtils {
                 consoleMessage("&3[&b" + plugin.getName() + "&3]" + "&a[SUCESSO] &2"+message);
                 break;
             case INFO:
-                consoleMessage("&3[&b" + plugin.getName() + "&3]" + "&e[INFO] &6"+message);
+                consoleMessage("&3[&b" + plugin.getName() + "&3]" + "&e[ INFO  ] &6"+message);
                 break;
             case ERROR:
-                consoleMessage("&3[&b" + plugin.getName() + "&3]" + "&c[ERRO] &4"+message);
+                consoleMessage("&3[&b" + plugin.getName() + "&3]" + "&c[ ERRO  ] &4"+message);
                 break;
         }
     }
