@@ -45,17 +45,18 @@ public class Logger {
             this.procs = procs;
         } else {
             Set<Process> confProc = this.decirialize(main);
-            /**/System.out.println("----");
+            /**/System.out.println("--c--");
             /**/confProc.forEach(p -> System.out.println(p.getName()));
-            /**/System.out.println("----");
+            /**/System.out.println("--c--");
 
-            this.procs = areEqual(procs, confProc) ? confProc : procs;
+//            this.procs = areEqual(procs, confProc) ? confProc : procs;
+            this.procs = procs.size() == confProc.size() ? confProc : procs;
 
             this.procs.forEach(p -> this.maxLen = p.getName().length() > this.maxLen ? (short) p.getName().length() : this.maxLen);
         }
-        /**/System.out.println("----");
+        /**/System.out.println("--m--");
         /**/this.procs.forEach(p -> System.out.println(p.getName()));
-        /**/System.out.println("----");
+        /**/System.out.println("--m--");
         try {
             final Process top = new Process(main == null || main.isEnabled(), "", new HashSet<>());
             this.mount(top, this.procs);
@@ -67,6 +68,8 @@ public class Logger {
     }
 
     private boolean isEnabled(String process) {
+        if (!this.conf.getData().isEnabled())
+            return false;
         for (Process proc : this.procs) {
             if (process.startsWith(proc.getName())) {
                 if (!proc.isEnabled())
@@ -157,38 +160,50 @@ public class Logger {
     private Set<Process> decirialize(Process p) {
         Set<Process> res = new HashSet<>();
 
-        for (Process sp : p.getSubProcesses()) {
-            if (sp.getSubProcesses().isEmpty())
-                res.add(sp);
-            else
-                decirialize(sp);
-        }
+//        res.add(new Process(p.isEnabled(), p.getName(), new HashSet<>()));
+        p.getSubProcesses().forEach(sp -> decirialize(sp, res));
 
         return res;
     }
 
+    private void decirialize(Process p, Set<Process> res) {
+        res.add(new Process(p.isEnabled(), p.getName(), new HashSet<>()));
+
+        if (!p.getSubProcesses().isEmpty())
+            for (Process sp : p.getSubProcesses()) {
+//                res.add(new Process(sp.isEnabled(), sp.getName(), new HashSet<>()));
+                decirialize(sp, res);
+            }
+
+    }
+
     private void mount(Process top, Set<Process> procs) {
         procs.forEach(p -> {
-            if(!p.getName().contains("-")) {
+            if (!p.getName().contains("-")) {
                 Process sp = new Process(p.isEnabled(), p.getName(), new HashSet<>());
                 top.registerSubProcess(sp);
-                /**/System.out.println(sp.getName());
+                /**/
+                System.out.println(sp.getName());
             }
         });
 
         recMount(top, procs);
     }
 
-    private void recMount(Process top, Set<Process> procs){
+    private void recMount(Process top, Set<Process> procs) {
         top.getSubProcesses().forEach(sp ->
                 procs.forEach(p -> {
-                    /**/System.out.println("! "+p.getName()+p.getName().split("-").length+" starts with "+sp.getName()+sp.getName().split("-").length+"? "+
+                    /**/
+                    System.out.println("! " + p.getName() + p.getName().split("-").length + " starts with " + sp.getName() + sp.getName().split("-").length + "? " +
                             (p.getName().startsWith(sp.getName()) && !p.getName().equals(sp.getName())));
-                    if(p.getName().startsWith(sp.getName()) && !p.getName().equals(sp.getName())
+                    if (p.getName().startsWith(sp.getName()) && !p.getName().equals(sp.getName())
                             && p.getName().split("-").length == sp.getName().split("-").length + 1) {
-                        /**/System.out.println("-----s----");
-                        /**/System.out.println(p.getName());
-                        /**/System.out.println("-----s----");
+                        /**/
+                        System.out.println("-----s----");
+                        /**/
+                        System.out.println(p.getName());
+                        /**/
+                        System.out.println("-----s----");
                         sp.registerSubProcess(p);
                         recMount(p, procs);
                     }
