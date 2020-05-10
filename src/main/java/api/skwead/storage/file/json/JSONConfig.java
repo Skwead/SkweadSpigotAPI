@@ -11,9 +11,11 @@ import java.io.*;
  */
 @SuppressWarnings("unused")
 public class JSONConfig<T> {
+    public static final Gson GSON = new GsonBuilder().create();
+
     private T data;
-    private Class<T> Tclass;
-    private String path;
+    private final Class<T> Tclass;
+    private final String path;
 
     /**
      * Creates a configuration object
@@ -51,19 +53,14 @@ public class JSONConfig<T> {
 
     /**
      * Loads the file into memory
-     * @return the file content as {@link T}
      * @throws FileNotFoundException if the file was not found
      * @see FileReader
      */
-    public T loadFile() throws FileNotFoundException {
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
+    private void loadFile() throws FileNotFoundException {
         BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(this.path));
 
-        T res = gson.fromJson(bufferedReader, this.Tclass);
-        this.data = res;
-        return res;
+        this.data = GSON.fromJson(bufferedReader, this.Tclass);
     }
 
     /**
