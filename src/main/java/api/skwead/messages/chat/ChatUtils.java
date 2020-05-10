@@ -39,7 +39,7 @@ Code 	Official Name   MOTD code
  */
 @SuppressWarnings("unused")
 public class ChatUtils {
-    private JavaPlugin plugin;
+    private final JavaPlugin plugin;
 
     /**
      * Returns a String with the placeholders replaced with their values.

@@ -32,12 +32,7 @@ public class Logger {
         this.chatUtils = chatUtils;
         this.conf = new JSONConfig<>(path, Process.class);
 
-        Process main = null;
-        try {
-            main = conf.loadFile();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        Process main = conf.getData();
 
         if (main == null) {
             this.procs = procs;
