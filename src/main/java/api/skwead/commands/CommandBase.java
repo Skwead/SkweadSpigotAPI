@@ -1,31 +1,31 @@
 package api.skwead.commands;
 
 import api.skwead.exceptions.exceptions.CommandSyntaxException;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.defaults.BukkitCommand;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Serves as {@link CustomCommand} factory.
  * Selects wich command to be ran.
  */
-public class CommandBase implements CommandExecutor {
+public class CommandBase extends BukkitCommand {
     private final Set<CustomCommand> commands = new HashSet<>();
-    private final String name;
-    private final String help;
 
     /**
-     * Builds a command given the name and help message.
-     * @param name The command name.
-     * @param help The help message
+     * Builds a CommandBase based on the parameters
+     * @param name the command name
+     * @param description the command description
+     * @param usageMessage the message displayed when the command is not succsessfully ran
+     * @param aliases the command aliases
      */
-    public CommandBase(String name, String help) {
-        this.name = name;
-        this.help = help;
+    protected CommandBase(String name, String description, String usageMessage, List<String> aliases) {
+        super(name, description, usageMessage, aliases);
     }
+
 
     /**
      * Adds a command to this base
@@ -35,32 +35,29 @@ public class CommandBase implements CommandExecutor {
         commands.add(cmd);
     }
 
+    /**
+     * The logic to run any subcommand
+     * @param commandSender who sent the command
+     * @param s label ig
+     * @param strings the args for the command
+     * @return true
+     */
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public boolean execute(CommandSender commandSender, String s, String[] strings) {
+        if(strings.length == 0) {
+            new CommandSyntaxException(commandSender, super.getDescription(), super.getUsage()).showError();
+            return true;
+        }
+
         for (CustomCommand cmd : commands) {
             if (cmd.getName().equals(strings[0])) {
-                cmd.run(commandSender, s, strings);
+                cmd.run(commandSender, strings);
                 return true;
             }
         }
 
-        new CommandSyntaxException(commandSender, help, getSyntax()).showError();
+        new CommandSyntaxException(commandSender, super.getDescription(), super.getUsage()).showError();
 
         return true;
-    }
-
-    /**
-     * Returns the base syntax.
-     * @return the base syntax.
-     */
-    private String getSyntax() {
-        StringBuilder cmd = new StringBuilder(this.name + " <");
-
-        for (CustomCommand command : commands)
-            cmd.append(command.getName()).append(" | ");
-
-        cmd.append(">");
-
-        return cmd.toString();
     }
 }
