@@ -16,8 +16,8 @@ public abstract class CustomCommand{
 
     /**
      * Runs the command and handles the syntax errors.
-     * @param commandSender
-     * @param args
+     * @param commandSender who sends the command
+     * @param args the arguments for the command
      */
     public void run(CommandSender commandSender, String[] args){
         try {
@@ -37,6 +37,7 @@ public abstract class CustomCommand{
      * @return the syntax id
      * @throws CommandSyntaxException if the syntax is not correct
      */
+    @SuppressWarnings("unused")
     public abstract int syntaxCheck(CommandSender commandSender, String[] args) throws CommandSyntaxException;
 
     /**

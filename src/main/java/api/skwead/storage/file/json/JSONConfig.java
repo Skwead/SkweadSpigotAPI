@@ -56,7 +56,7 @@ public class JSONConfig<T> {
      * @throws FileNotFoundException if the file was not found
      * @see FileReader
      */
-    public T loadFile() throws FileNotFoundException {
+    private T loadFile() throws FileNotFoundException {
         BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(this.path));
 
