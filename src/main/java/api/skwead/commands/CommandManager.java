@@ -1,7 +1,7 @@
 package api.skwead.commands;
 
 import api.skwead.storage.file.json.JSONConfig;
-import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_16_R1.CraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
