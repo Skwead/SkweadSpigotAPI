@@ -17,7 +17,8 @@ public abstract class YMLConfig {
 
     /**
      * Creates the configuration
-     * @param name The file name
+     *
+     * @param name   The file name
      * @param plugin The plugin
      */
     public YMLConfig(String name, JavaPlugin plugin) {
@@ -25,14 +26,14 @@ public abstract class YMLConfig {
         create(plugin);
     }
 
-    private void create(JavaPlugin plugin){
-        file = new File(plugin.getDataFolder(), name+".yml");
+    private void create(JavaPlugin plugin) {
+        file = new File(plugin.getDataFolder(), name + ".yml");
         if (!file.exists()) {
             file.getParentFile().mkdirs();
-            plugin.saveResource(name+".yml", false);
+            plugin.saveResource(name + ".yml", false);
         }
 
-        config= new YamlConfiguration();
+        config = new YamlConfiguration();
         try {
             config.load(file);
         } catch (IOException | InvalidConfigurationException e) {
@@ -42,6 +43,7 @@ public abstract class YMLConfig {
 
     /**
      * The logic to put data in the config
+     *
      * @param keys The keys to be put
      * @throws IOException while processing some stuff related to files
      */

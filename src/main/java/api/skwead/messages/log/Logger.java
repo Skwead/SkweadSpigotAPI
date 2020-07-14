@@ -5,7 +5,6 @@ import api.skwead.messages.chat.MessageType;
 import api.skwead.storage.file.json.JSONConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;

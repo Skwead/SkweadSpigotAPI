@@ -1,45 +1,69 @@
 package api.skwead.commands;
 
-import api.skwead.storage.file.json.JSONConfig;
-import org.bukkit.craftbukkit.v1_16_R1.CraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 @SuppressWarnings("unused")
 public class CommandManager {
-    private final JavaPlugin plugin;
-    private final JSONConfig<Set<CommandBase>> config;
 
-    @SuppressWarnings("unchecked")
-    public CommandManager(JavaPlugin plugin, String path) {
-        this.plugin = plugin;
-        final Set<CommandBase> s = new HashSet<>();
-        this.config = new JSONConfig<>(path, (Class<Set<CommandBase>>) s.getClass());
+    private final CommandConfig config;
+
+    public CommandManager(JavaPlugin plugin) {
+
+//        final Set<ConfigCommand> s = new HashSet<>();
+//        this.config = new JSONConfig<>(path, (Class<Set<CMD>>) s.getClass());
+        this.config = new CommandConfig("commands", plugin);
     }
 
-    public void registerCommands(Set<CommandBase> cmds){
-        final Set<CommandBase> commands = config.getData();
-
-        final Set<CommandBase> deleted = new HashSet<>();
-        for (CommandBase dlt : commands) if (!cmds.contains(dlt)) deleted.add(dlt);
-        commands.removeAll(deleted);
-
-        commands.addAll(cmds);
-
-        commands.forEach(cmd -> ((CraftServer) this.plugin.getServer()).getCommandMap()
-                .register(cmd.getName(), cmd));
-
-        try {
-            this.config.saveFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public JSONConfig<Set<CommandBase>> getConfig() {
+    public CommandConfig getConfig() {
         return config;
     }
+
+    //    public void registerCommands(Set<ConfigCommand> cmds) {
+//        final Set<CMD> cmdConf = new HashSet<>(config.getData());
+//        final Set<CMD> cmdSet = new HashSet<>();
+//        cmds.forEach(configCommand -> cmdSet.add(configCommand.serialize()));
+//
+//        // Adds missing commands to the config
+//        cmdConf.addAll(cmdSet);
+//
+//        // Removes extra commands
+////        cmdSet.forEach(cmd -> {
+////            if (!cmdConf.contains(cmd))
+////                cmdConf.remove(cmd);
+////        });
+//
+//        // Updates from config
+//        cmdConf.forEach(cmd -> {
+//            ConfigCommand cc = null;
+//
+//            for (ConfigCommand c : cmds) {
+//                if (c.getRef().equals(cmd.getRef())) {
+//                    cc = c;
+//                    break;
+//                }
+//            }
+//            if (cc == null)
+//                throw new IllegalStateException(
+//                        "Somehow the comand was not found in the config, idk what u did but u fucked up real bad");
+//
+//            cc.setAliases(new ArrayList<>(cmd.getAliases()));
+//            cc.setDescription(cmd.getDescription());
+//            cc.setName(cmd.getName());
+////            cc.setRef(cmd.getRef());
+//            cc.setUsage(cmd.getUsageMessage());
+//        });
+//
+//        cmds.forEach(cmd -> cmd.register(plugin));
+//
+//        config.setData(cmdConf);
+//        try {
+//            config.saveFile();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+//    public JSONConfig<Set<CMD>> getConfig() {
+//        return config;
+//    }
 }

@@ -19,7 +19,7 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public class MessageConfig extends YMLConfig {
 
-    private Map<String, String> messages = new HashMap<>();
+    private final Map<String, String> messages = new HashMap<>();
 
     /**
      * Creates a Config for the plugin messages given a {@link ChatUtils} to message a player
