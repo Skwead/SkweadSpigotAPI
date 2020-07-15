@@ -7,8 +7,8 @@ import java.util.function.BiFunction;
 
 public class PlaceholderComponent {
 
-    private String name;
-    private BiFunction<JavaPlugin, Player, String> getValue;
+    private final String name;
+    private final BiFunction<JavaPlugin, Player, String> getValue;
 
     public PlaceholderComponent(String name, BiFunction<JavaPlugin, Player, String> getValue) {
         this.name = name;

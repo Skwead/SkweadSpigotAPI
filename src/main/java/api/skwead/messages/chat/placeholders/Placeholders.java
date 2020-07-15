@@ -9,8 +9,8 @@ import java.util.Set;
 
 @SuppressWarnings("unused")
 public class Placeholders extends PlaceholderExpansion {
-    private JavaPlugin plugin;
-    private Set<PlaceholderComponent> placeholders = new HashSet<>();
+    private final JavaPlugin plugin;
+    private final Set<PlaceholderComponent> placeholders = new HashSet<>();
 
     /**
      * Since we register the expansion inside our own plugin, we
