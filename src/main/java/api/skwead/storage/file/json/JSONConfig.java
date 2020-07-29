@@ -17,6 +17,7 @@ public class JSONConfig<T> {
     public static final Gson GSON = new GsonBuilder().serializeNulls().create();
 
     private T data;
+    private final Class<T> Tclass;
     private final String path;
 
     /**
@@ -27,6 +28,7 @@ public class JSONConfig<T> {
      */
     public JSONConfig(String path, Class<T> Tclass) {
         this.path = path;
+        this.Tclass = Tclass;
 
         try {
             loadFile();
@@ -60,16 +62,17 @@ public class JSONConfig<T> {
      * @see FileReader
      */
     public void loadFile() throws FileNotFoundException {
-        BufferedReader bufferedReader = new BufferedReader(
+        final BufferedReader bufferedReader = new BufferedReader(
                 new FileReader(this.path));
 
         final Type type = new TypeToken<T>(){}.getType();
 
-        try{
-            this.data = GSON.fromJson(bufferedReader, type);
-        } catch (ClassCastException e){
-            this.data = GSON.fromJson(bufferedReader, (Type) this.data.getClass());
-        }
+        this.data = GSON.fromJson(bufferedReader, this.Tclass);
+//        try{
+//            this.data = GSON.fromJson(bufferedReader, type);
+//        } catch (ClassCastException e){
+//            this.data = GSON.fromJson(bufferedReader, (Type) this.data.getClass());
+//        }
     }
 
     /**
