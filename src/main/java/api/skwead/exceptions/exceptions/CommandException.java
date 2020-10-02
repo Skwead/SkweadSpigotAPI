@@ -16,4 +16,8 @@ public class CommandException extends ChatLoggedException {
         super.showError();
         super.getTroubleMaker().sendMessage(syntax);
     }
+
+    public String getSyntax() {
+        return this.syntax;
+    }
 }
