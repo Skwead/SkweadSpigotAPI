@@ -1,3 +1,5 @@
 name: SkPlugin
 main: api.skwead.SkPlugin
 version: 1.0-SNAPSHOT
+depend:
+  - PlaceholderAPI
