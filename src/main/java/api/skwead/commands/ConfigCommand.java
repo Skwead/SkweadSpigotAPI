@@ -3,7 +3,7 @@ package api.skwead.commands;
 import api.skwead.exceptions.exceptions.CommandException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
-import org.bukkit.craftbukkit.v1_16_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_16_R2.CraftServer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
